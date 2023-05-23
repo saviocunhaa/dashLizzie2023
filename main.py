@@ -68,6 +68,25 @@ def criar_grafico_top_10_clientes(dfPedido, dfCliente, year, month):
     return fig
 
 
+def criar_grafico_top_10_produtos(dfItensPedidos, dfProduto, dfPedido, year, month):
+    dfFiltradoPedido = dfPedido.query("Year == @year and Month == @month")
+    dfFiltradoItens = dfItensPedidos[
+        dfItensPedidos["id_pedido"].isin(dfFiltradoPedido["id_pedido"])
+    ]
+    dfProdutosPedidos = dfFiltradoItens.merge(dfProduto, on="id_produto", how="left")
+
+    top_10_produtos = dfProdutosPedidos["produto"].value_counts().nlargest(10)
+
+    fig = go.Figure(data=go.Bar(x=top_10_produtos.index, y=top_10_produtos.values))
+    fig.update_layout(
+        title="Top 10 Produtos Mais Vendidos",
+        xaxis_title="Produto",
+        yaxis_title="Quantidade de Vendas",
+    )
+
+    return fig
+
+
 def criar_grafico_distribuicao_status(dfPedido, year, month):
     dfFiltrado = dfPedido.query("Year == @year and Month == @month")
     status_counts = dfFiltrado["status"].value_counts()
@@ -235,6 +254,11 @@ def criarDash():
             dfPedido, dfVendedor, year, month
         )
         st.plotly_chart(grafico_pedidos_por_vendedor)
+
+    grafico_top_10_produtos = criar_grafico_top_10_produtos(
+        dfItensPedidos, dfProduto, dfPedido, year, month
+    )
+    st.plotly_chart(grafico_top_10_produtos)
 
 
 conexao()
