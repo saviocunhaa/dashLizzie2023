@@ -48,6 +48,26 @@ def conexao():
         dfVendedor = pd.read_sql(queryVendedor, conexao)
 
 
+def criar_grafico_top_10_clientes(dfPedido, dfCliente, year, month):
+    dfFiltrado = dfPedido.query("Year == @year and Month == @month")
+    dfFiltrado = dfFiltrado.merge(dfCliente, on="id_cliente")
+    top_10_clientes = (
+        dfFiltrado.groupby("nome_fantasia")["id_cliente"].count().nlargest(10)
+    )
+
+    valor_total_compra = dfPedido.groupby("id_cliente")["total_pedido"].sum()
+    dfCliente["valor_total_compra"] = valor_total_compra
+
+    fig = go.Figure(data=go.Bar(x=top_10_clientes.index, y=top_10_clientes.values))
+    fig.update_layout(
+        title="Top 10 Clientes com Mais Compras",
+        xaxis_title="Cliente",
+        yaxis_title="Quantidade de Compras",
+    )
+
+    return fig
+
+
 def criar_grafico_distribuicao_status(dfPedido, year, month):
     dfFiltrado = dfPedido.query("Year == @year and Month == @month")
     status_counts = dfFiltrado["status"].value_counts()
@@ -188,10 +208,10 @@ def criarDash():
     col2.metric("Total R$ Pedidos", total_formatado)
     col3.metric("Pedidos", qtdPedidos)
 
-    grafico_pedidos_por_vendedor = criar_grafico_pedidos_por_vendedor(
-        dfPedido, dfVendedor, year, month
+    grafico_top_10_clientes = criar_grafico_top_10_clientes(
+        dfPedido, dfCliente, year, month
     )
-    st.plotly_chart(grafico_pedidos_por_vendedor)
+    st.plotly_chart(grafico_top_10_clientes)
 
     grafico_evolucao_pedidos = criar_grafico_evolucao_pedidos(dfPedido, year, month)
     st.plotly_chart(grafico_evolucao_pedidos)
@@ -201,6 +221,11 @@ def criarDash():
         dfPedido, year, month
     )
     st.plotly_chart(grafico_distribuicao_status)
+
+    grafico_pedidos_por_vendedor = criar_grafico_pedidos_por_vendedor(
+        dfPedido, dfVendedor, year, month
+    )
+    st.plotly_chart(grafico_pedidos_por_vendedor)
 
 
 conexao()
