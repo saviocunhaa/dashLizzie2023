@@ -1,11 +1,13 @@
 import locale
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import mysql.connector
-import numpy as np
+
+# import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-import plotly_express as px
+
+# import plotly_express as px
 import streamlit as st
 
 # confirguração padrão da pagina
