@@ -208,24 +208,33 @@ def criarDash():
     col2.metric("Total R$ Pedidos", total_formatado)
     col3.metric("Pedidos", qtdPedidos)
 
-    grafico_top_10_clientes = criar_grafico_top_10_clientes(
-        dfPedido, dfCliente, year, month
-    )
-    st.plotly_chart(grafico_top_10_clientes)
+    col1_, col2_ = st.columns(2)
 
-    grafico_evolucao_pedidos = criar_grafico_evolucao_pedidos(dfPedido, year, month)
-    st.plotly_chart(grafico_evolucao_pedidos)
+    # Gráfico 1: Top 10 Clientes
+    with col1_:
+        grafico_top_10_clientes = criar_grafico_top_10_clientes(
+            dfPedido, dfCliente, year, month
+        )
+        st.plotly_chart(grafico_top_10_clientes)
 
-    # resultado interação sidebar
-    grafico_distribuicao_status = criar_grafico_distribuicao_status(
-        dfPedido, year, month
-    )
-    st.plotly_chart(grafico_distribuicao_status)
+    # Gráfico 2: Evolução dos Pedidos
+    with col1_:
+        grafico_evolucao_pedidos = criar_grafico_evolucao_pedidos(dfPedido, year, month)
+        st.plotly_chart(grafico_evolucao_pedidos)
 
-    grafico_pedidos_por_vendedor = criar_grafico_pedidos_por_vendedor(
-        dfPedido, dfVendedor, year, month
-    )
-    st.plotly_chart(grafico_pedidos_por_vendedor)
+    # Gráfico 3: Distribuição de Status
+    with col2_:
+        grafico_distribuicao_status = criar_grafico_distribuicao_status(
+            dfPedido, year, month
+        )
+        st.plotly_chart(grafico_distribuicao_status)
+
+    # Gráfico 4: Pedidos por Vendedor
+    with col2_:
+        grafico_pedidos_por_vendedor = criar_grafico_pedidos_por_vendedor(
+            dfPedido, dfVendedor, year, month
+        )
+        st.plotly_chart(grafico_pedidos_por_vendedor)
 
 
 conexao()
