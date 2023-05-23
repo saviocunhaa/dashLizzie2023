@@ -1,4 +1,4 @@
-import locale
+# import locale
 
 # import matplotlib.pyplot as plt
 import mysql.connector
@@ -163,7 +163,7 @@ def criarDash():
         "id_cliente"
     ].count()
 
-    locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
+    # locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
     # totalPedidos = dfPedido.query("Year == @year and Month == @moth")
     total = dfPedido.query("Year == @year and Month == @month")["total_pedido"].sum()
