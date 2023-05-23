@@ -166,7 +166,9 @@ def criarDash():
     # locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
     # totalPedidos = dfPedido.query("Year == @year and Month == @moth")
+
     total = dfPedido.query("Year == @year and Month == @month")["total_pedido"].sum()
+    total_formatado = "R$ {:,}".format(total).replace(",", ".")
     # total_formatado = locale.currency(total, grouping=True)
 
     statusEntregue = (dfPedido["status"].values == 2).sum()
@@ -181,7 +183,7 @@ def criarDash():
 
     ######### resultado exibido aqui
     col1.metric("Quantidade de Clientes", qtdCliente)
-    col2.metric("Total R$ Pedidos", total)
+    col2.metric("Total R$ Pedidos", total_formatado)
     col3.metric("Pedidos", qtdPedidos)
 
     grafico_pedidos_por_vendedor = criar_grafico_pedidos_por_vendedor(
