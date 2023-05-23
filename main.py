@@ -168,7 +168,9 @@ def criarDash():
     # totalPedidos = dfPedido.query("Year == @year and Month == @moth")
 
     total = dfPedido.query("Year == @year and Month == @month")["total_pedido"].sum()
-    total_formatado = "R$ {:,}".format(total).replace(",", ".")
+    # total_formatado = "R$ {:,}".format(total).replace(",", ".")
+    total_formatado = f"R$ {total:,.2f}".replace(",", ".")
+
     # total_formatado = locale.currency(total, grouping=True)
 
     statusEntregue = (dfPedido["status"].values == 2).sum()
