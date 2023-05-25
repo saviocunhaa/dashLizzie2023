@@ -129,7 +129,7 @@ def criar_grafico_pedidos_por_vendedor(dfPedido, dfVendedor, year, month):
     )
 
     fig = go.Figure(
-        data=go.Bar(x=pedidos_por_vendedor.index, y=pedidos_por_vendedor.values)
+        data=go.Scatter(x=pedidos_por_vendedor.index, y=pedidos_por_vendedor.values)
     )
     fig.update_layout(
         title="Quantidade de Pedidos por Vendedor",
