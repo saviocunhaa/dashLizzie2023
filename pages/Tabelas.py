@@ -1,6 +1,4 @@
-import mysql.connector
-import pandas as pd
-import plotly.graph_objects as go
+# import mysql.connector
 import streamlit as st
 
 import main
@@ -36,5 +34,4 @@ def criarDash(dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor):
 
 dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor = main.conexaoOk()
 # Passe os dataframes como argumentos para a função criarDash()
-
 criarDash(dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor)

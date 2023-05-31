@@ -1,7 +1,10 @@
 # import locale
 
 # import matplotlib.pyplot as plt
+import os
+
 import mysql.connector
+import openai
 
 # import numpy as np
 import pandas as pd
@@ -242,6 +245,19 @@ def criarDash():
     with col1_:
         grafico_evolucao_pedidos = criar_grafico_evolucao_pedidos(dfPedido, year, month)
         st.plotly_chart(grafico_evolucao_pedidos)
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        chatgpt = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"o Dataset {grafico_evolucao_pedidos} corresponde a evolução total de pedidos de todo o periodo selecionado de pedidos da empresa. Me informe 5 insigths sobre esse dataset  ",
+                },
+            ],
+        )
+        insights = chatgpt["choices"][0]["message"]["content"]
+        if st.button("Analisar"):
+            st.write(insights)
 
     # Gráfico 3: Distribuição de Status
     with col2_:
