@@ -1,7 +1,7 @@
 # import mysql.connector
 import streamlit as st
 
-import main
+import Home
 
 # confirguração padrão da pagina
 st.set_page_config(
@@ -32,6 +32,6 @@ def criarDash(dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor):
 
 # Chame a função conexaoOk() para obter os dataframes
 
-dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor = main.conexaoOk()
+dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor = Home.conexaoOk()
 # Passe os dataframes como argumentos para a função criarDash()
 criarDash(dfCliente, dfPedido, dfItensPedidos, dfProduto, dfVendedor)
